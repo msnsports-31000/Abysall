@@ -357,6 +357,7 @@ end)
 Abysall.Interface.ApplySettingsTab(Window)
 Library:OnUnload(function()
     Connections.MainConnection:Disconnect()
+	getgenv().Abysall = nil
 end)
 
 task.wait(0.5)
