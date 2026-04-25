@@ -2365,7 +2365,7 @@ end)
 Options.PlayerESPColor:OnChanged(function(Value)
     for Index, Object in pairs(Services.Players:GetPlayers()) do
         if Object.Character and Object ~= LocalPlayer then
-            Abysall.ESPLibrary:UpdateObjectText(Object.Character, Value)
+            Abysall.ESPLibrary:UpdateObjectColor(Object.Character, Value)
         end
     end
 end)
