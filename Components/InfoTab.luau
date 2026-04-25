@@ -28,7 +28,7 @@ return function(Window)
     local Toggles = Library.Toggles
     local Options = Library.Options
 
-    local LocalPlayer = Services.Players.Localplayer
+    local LocalPlayer = Services.Players.LocalPlayer
     local InfoTab = Window:AddTab("Info", "user")
 
     local User = InfoTab:AddLeftGroupbox("User Info")
@@ -43,7 +43,7 @@ return function(Window)
     })
 
     User:AddLabel("ID: " .. LocalPlayer.Name, true)
-    User:AddLabel("Total Executions: " .. Abysall.TotalExecutions, true)
+    User:AddLabel("Total Executions: " .. Abysall.TotalExecutions and Abysall.TotalExecutions or "N/A", true)
 
     local Name, Version = Abysall.Environment.identifyexecutor()
     local Executor = InfoTab:AddLeftGroupbox("Executor Info")
