@@ -1,6 +1,6 @@
 return function(Window)
     local LatestChangelog = {
-        "25/04/2026",
+        "28/04/2026",
         "[ DOORS ]",
         "<font color='rgb(0, 255, 0)'>+ Fixed Loading on Xeno</font>",
         "<font color='rgb(0, 255, 0)'>+ Added Text Transparency Slider</font>",
