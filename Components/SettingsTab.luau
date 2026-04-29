@@ -1,4 +1,18 @@
 return function(Window)
+	local function CloneReference(Object)
+		if Abysall and Abysall.Environment.cloneref then
+			return Abysall.Environment.cloneref(Object)
+		else
+			return Object
+		end
+	end
+
+	local Services = setmetatable({}, {
+		__index = function(self, Name)
+			return CloneReference(game:GetService(Name))
+		end
+	})
+
 	local Library = Abysall.Interface.Library
 	local SaveManager = Abysall.Interface.SaveManager
 	local ThemeManager = Abysall.Interface.ThemeManager
@@ -48,7 +62,7 @@ return function(Window)
 			"Obsidian",
 			"Linoria"
 		},
-		Default = 1,
+		Default = (Abysall.UILibrary == "Linoria" and 2 or 1),
 		Callback = function(Value)
 			if Abysall.Environment.writefile and Abysall.Environment.readfile then
 				if not Abysall.Environment.isfile("Abysall/UserData.json") then
@@ -62,6 +76,13 @@ return function(Window)
 				local UserData = Abysall.Environment.readfile("Abysall/UserData.json")
 				local Decoded = Services.HttpService:JSONDecode(UserData)
 				Decoded.UILibrary = Value
+
+				if not Decoded.UILibrary then
+					Decoded.UILibrary = "Obsidian"
+				end
+
+				Abysall.TotalExecutions = Decoded.TotalExecutions
+				Abysall.UILibrary = Decoded.UILibrary
 
 				Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Decoded))
 			end
