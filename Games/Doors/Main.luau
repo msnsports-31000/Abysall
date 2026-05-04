@@ -411,6 +411,61 @@ Functions.Notify = function(Settings)
     end
 end
 
+Functions.Caption = function(Text, PlaySound)
+	if typeof(PlaySound) ~= "boolean" then
+		PlaySound = true
+	end
+	local CaptionValue = Instance.new("NumberValue")
+	local Caption = Globals.MainUI:WaitForChild("MainFrame"):WaitForChild("Caption"):Clone()
+	local CaptionSound = Globals.MainUI:WaitForChild("Initiator"):WaitForChild("Main_Game"):WaitForChild("Reminder"):WaitForChild("Caption")
+    local CaptionSoundClone = CaptionSound:Clone()
+    CaptionSoundClone.Parent = CaptionSound.Parent
+    CaptionSoundClone.Volume = 0.1
+	Caption.Destroying:Connect(function()
+        CaptionValue:Destroy()
+    end)
+    for Index, Child in pairs(Globals.MainUI:GetChildren()) do
+		if Child.Name == "LiveCaption" then
+			Child:Destroy()
+		end
+	end
+	Caption.Parent = Globals.MainUI
+	Caption.Visible = true
+	Caption.Name = "LiveCaption"
+	Caption.Text = Text
+	if PlaySound then
+		CaptionSoundClone:Play()
+	end
+    Services.Debris:AddItem(CaptionSoundClone, 5)
+	local HolderTween = Services.TweenService:Create(CaptionValue, TweenInfo.new(3), {Value = 100})
+	HolderTween:Play()
+	HolderTween.Completed:Connect(function()
+		CaptionValue:Destroy()
+        Services.TweenService:Create(Caption, TweenInfo.new(4, Enum.EasingStyle.Linear), {TextTransparency = 1}):Play()
+		Services.TweenService:Create(Caption, TweenInfo.new(4, Enum.EasingStyle.Linear), {TextStrokeTransparency = 1}):Play()
+	end)
+end
+
+Functions.GetHasteTime = function()
+	local TimeRemaining = FloorReplicated.DigitalTimer.Value
+
+	local Minutes = math.floor(TimeRemaining/60)
+	local Seconds = TimeRemaining-(Minutes*60)
+
+	local MinutesText = tostring(Minutes)
+	local SecondsText = tostring(Seconds)
+
+	if Minutes < 10 then
+		MinutesText = "0" .. MinutesText
+	end
+
+	if Seconds < 10 then
+		SecondsText = "0" .. SecondsText
+	end
+
+	return MinutesText .. ":" .. SecondsText
+end
+
 Library.OldNotify = Library.Notify
 Library.Notify = function(Data, Body, Time)
     Functions.Notify({Title = Body, Time = Time or 5})
@@ -499,22 +554,6 @@ Globals.SeekNodesFolder.Name = Abysall.ESPLibrary:GenerateRandomString()
 
 Globals.RoomsNodesFolder = Instance.new("Folder", Services.Workspace)
 Globals.RoomsNodesFolder.Name = Abysall.ESPLibrary:GenerateRandomString()
-
-Globals.OxygenUI = Instance.new("ScreenGui", Services.CoreGui)
-Globals.OxygenUI.Name = Abysall.ESPLibrary:GenerateRandomString()
-Globals.OxygenUI.Enabled = false
-Globals.OxygenUI.IgnoreGuiInset = true
-
-Globals.OxygenUI_Text = Instance.new("TextLabel", Globals.OxygenUI)
-Globals.OxygenUI_Text.Position = UDim2.new(0, 0, 0, 64)
-Globals.OxygenUI_Text.Size = UDim2.new(1, 0, 0, 36)
-
-Globals.OxygenUI_Text.TextSize = 36
-Globals.OxygenUI_Text.TextColor3 = Color3.fromRGB(255, 255, 255)
-Globals.OxygenUI_Text.BackgroundTransparency = 1
-Globals.OxygenUI_Text.TextStrokeTransparency = 0
-Globals.OxygenUI_Text.TextTransparency = 0
-Globals.OxygenUI_Text.Font = Enum.Font.Oswald
 
 Functions.SendChat = function(Message)
 	local Folder = Services.ReplicatedStorage:FindFirstChild("DefaultChatSystemEvents") or Instance.new("Folder")
@@ -747,10 +786,8 @@ Globals.PromptContainer.Name = "PromptContainer"
 
 if Functions.CheckCompatability({"gethui"}) then
     Globals.PromptContainer.Parent = Abysall.Environment.gethui()
-    Globals.OxygenUI.Parent = Abysall.Environment.gethui()
 else
     Globals.PromptContainer.Parent = Services.CoreGui
-    Globals.OxygenUI.Parent = Services.CoreGui
 end
 
 local ESPBlacklist = {}
@@ -1928,9 +1965,15 @@ Groupboxes.Visuals_Entities:AddToggle("NotifyLibraryCode", {
 })
 
 Groupboxes.Visuals_Entities:AddToggle("NotifyOxygen", {
-    Text = "Notify Oxygen",
+    Text = "Notify Oxygen Level",
     Default = false,
     Tooltip = "Shows how much oxygen you have remaining."
+})
+
+Groupboxes.Visuals_Entities:AddToggle("NotifyHasteTime", {
+    Text = "Notify Haste Time",
+    Default = false,
+    Tooltip = "Shows how much time you have remaining before 'Haste' spawns."
 })
 
 Globals.LibraryCodeFound = false
@@ -1943,13 +1986,6 @@ Toggles.NotifyLibraryCode:OnChanged(function(Value)
             Functions.Notify({Title = "Padlock code found!", Body = "The code is: '" .. Code .. "'", Time = 15})
             Globals.LibraryCodeFound = true
         end
-    end
-end)
-
-Toggles.NotifyOxygen:OnChanged(function(Value)
-    if Character:GetAttribute("Oxygen") then
-        Globals.OxygenUI_Text.Text = Functions.FormatOxygen(Character:GetAttribute("Oxygen"))
-        Globals.OxygenUI.Enabled = (Value and Character:GetAttribute("Oxygen") < 100 and true or false)
     end
 end)
 
@@ -2913,7 +2949,7 @@ end
 
 local ActivePaths = 0
 Connections.RoomsAutoWalkHandler = Services.RunService.RenderStepped:Connect(function()
-    if Floor == "Rooms" and Toggles.RoomsAutoWalk.Value and not Globals.RoomsAutoWalkActive then
+    if Floor == "Rooms" and Toggles.RoomsAutoWalk.Value and not Globals.RoomsAutoWalkActive and CollisionPart then
         Globals.RoomsAutoWalkActive = true
 
         local Path = Services.PathfindingService:CreatePath({
@@ -3489,9 +3525,12 @@ Functions.HandleCharacter = function(NewCharacter)
         end
     end)
 
+    Globals.OldOxygen = Character:GetAttribute("Oxygen")
     Connections.OxygenConnection = Character:GetAttributeChangedSignal("Oxygen"):Connect(function()
-        Globals.OxygenUI_Text.Text = Functions.FormatOxygen(Character:GetAttribute("Oxygen"))
-        Globals.OxygenUI.Enabled = (Toggles.NotifyOxygen.Value and Character:GetAttribute("Oxygen") < 100 and true or false)
+        if Character:GetAttribute("Oxygen") < Globals.OldOxygen and Toggles.NotifyOxygen.Value then
+            Functions.Caption(Functions.FormatOxygen(Character:GetAttribute("Oxygen")), true)
+        end
+        Globals.OldOxygen = Character:GetAttrivute("Oxygen")
     end)
 
     Connections.AutoReviveHandler = LocalPlayer:GetAttributeChangedSignal("Alive"):Connect(function()
@@ -3739,7 +3778,7 @@ Functions.HandleCharacter = function(NewCharacter)
 
         if Toggles.VelocityManipulationToggle.Value then
             Globals.ManipulateBody.Parent = RootPart
-            Globals.ManipulateBody.Velocity = RootPart.CFrame.LookVector * 2.5
+            Globals.ManipulateBody.Velocity = RootPart.CFrame.LookVector * 2
         else
             Globals.ManipulateBody.Parent = nil
         end
@@ -5302,6 +5341,14 @@ Connections.FloorReplicatedHandler = FloorReplicated.DescendantAdded:Connect(fun
     end
 end)
 
+if FloorReplicated:FindFirstChild("DigitalTimer") then
+    Connections.HasteTimerConnection = FloorReplicated.DigitalTimer:GetPropertyChangedSignal("Value"):Connect(function()
+        if Toggles.NotifyHasteTime.Value then
+            Functions.Caption(Functions.GetHasteTime(), true)
+        end
+    end)
+end
+
 Connections.FogHandler = Services.Lighting:GetPropertyChangedSignal("FogEnd"):Connect(function()
     if Services.Lighting.FogEnd ~= 10000000 then
         Globals.OldFog = Services.Lighting.FogEnd
@@ -5569,6 +5616,10 @@ Library:OnUnload(function()
     CollisionPart.Position = RootPart.Position + Vector3.new(0, 0.18, 0)
     CollisionPartClone.Position = RootPart.Position + Vector3.new(0, 0.18, 0)
 
+    if Character:FindFirstChild("LowerTorso") and Character.LowerTorso:FindFirstChild("Root") then
+        Character.LowerTorso.Root.C1 = Globals.OriginalC1
+    end
+
     if Collision:FindFirstChild("CollisionCrouch") then
         Collision.CollisionCrouch.Position = RootPart.Position + Vector3.new(0, -0.982, 0)
     end
@@ -5583,6 +5634,8 @@ Library:OnUnload(function()
     getgenv().Abysall = nil
 end)
 
-task.wait(0.5)
+while not Globals.MainUI do
+    task.wait()
+end
 Abysall.Interface.ApplySettingsTab(Window)
 Functions.Notify({Title = "Successfully loaded in " .. math.floor((tick() - LoadStart) * 1000) / 1000 .. " seconds."})
