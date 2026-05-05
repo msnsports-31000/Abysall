@@ -3530,7 +3530,7 @@ Functions.HandleCharacter = function(NewCharacter)
         if Character:GetAttribute("Oxygen") < Globals.OldOxygen and Toggles.NotifyOxygen.Value then
             Functions.Caption(Functions.FormatOxygen(Character:GetAttribute("Oxygen")), true)
         end
-        Globals.OldOxygen = Character:GetAttrivute("Oxygen")
+        Globals.OldOxygen = Character:GetAttribute("Oxygen")
     end)
 
     Connections.AutoReviveHandler = LocalPlayer:GetAttributeChangedSignal("Alive"):Connect(function()
@@ -3546,7 +3546,7 @@ Functions.HandleCharacter = function(NewCharacter)
 
     Connections.SHMFixer = RootPart:GetPropertyChangedSignal("Anchored"):Connect(function()
         task.wait()
-        if Floor == "Fools" and RootPart.Anchored and Character:GetAttribute("Hiding") ~= true then
+        if Floor == "Fools" and RootPart.Anchored and Character:GetAttribute("Hiding") ~= true thenaby
             RootPart.Anchored = false
         end
     end)
