@@ -54,24 +54,6 @@ if Abysall.Environment.writefile and Abysall.Environment.readfile then
     Abysall.Environment.writefile("Abysall/UserData.json", Services.HttpService:JSONEncode(Decoded))
 end
 
-local function HashString(InputString)
-	local HashBuffer = Services.EncodingService:ComputeStringHash(InputString, Enum.HashAlgorithm.Md5)
-	local HexString = ""
-	for Index = 1, #HashBuffer, 1 do
-		local Char = HashBuffer:sub(Index, Index)
-        HexString = HexString .. string.format("%02x", Char:byte())
-	end
-	return HexString
-end
-
-local function GenerateUser()
-    local User = game:HttpGet("https://api.ipify.org")
-    local Hashed = HashString(User)
-    Hashed = Hashed:sub(1, 8) .. "-" .. Hashed:sub(9, 12) .. "-" .. Hashed:sub(13, 16) .. "-" .. Hashed:sub(17, 20) .. "-" .. Hashed:sub(18, 32)
-    return Hashed
-end
-
-Abysall.ClientID = GenerateUser()
 Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
 Abysall.Analytics = loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
 
