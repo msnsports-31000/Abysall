@@ -3014,7 +3014,7 @@ Functions.RoomsAutoWalk.GetNearestHidingSpot = function()
     for Index, Object in (Objects.HidingSpots) do
         if Object.PrimaryPart and Object:FindFirstChild("HidePrompt") then
             local Distance = LocalPlayer:DistanceFromCharacter(Object.PrimaryPart.Position)
-            if Distance < Nearest.Distance then
+            if Distance < Nearest.Distance and Object.PrimaryPart.Position.Y > -10 then
                 local HiddenPlayer = Object:FindFirstChild("HiddenPlayer", true)
                 if HiddenPlayer and not HiddenPlayer.Value then
                     Nearest.Distance = Distance
