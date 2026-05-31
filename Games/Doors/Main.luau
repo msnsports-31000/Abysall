@@ -435,7 +435,7 @@ Functions.Notify = function(Settings)
             Description = Settings.Title,
             Reason = Settings.Body,
             Style = IsEntity and "WARNING" or "NOTIFICATION",
-            Color = (IsEntity and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(255, 255, 255)),
+            Color = (IsEntity and Color3.fromRGB(255, 0, 0) or Color3.fromRGB(255, 222, 189)),
             Image = Settings.Image
         })
     else
