@@ -58,7 +58,7 @@ local function GetHiddenUI()
 	return Folder
 end
 
-local function RandomName()
+local function Library:GenerateRandomString()
 	local Chars = {}
 	local Pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	local PoolLen = #Pool
@@ -75,29 +75,29 @@ local Camera = Workspace.CurrentCamera
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.ResetOnSpawn = false
 ScreenGui.IgnoreGuiInset = true
-ScreenGui.Name = RandomName()
+ScreenGui.Name = Library:GenerateRandomString()
 ScreenGui.Parent = HiddenUI
 
 local HighlightsFolder = Instance.new("Folder")
-HighlightsFolder.Name = RandomName()
+HighlightsFolder.Name = Library:GenerateRandomString()
 HighlightsFolder.Parent = ScreenGui
 
 local BillboardsFolder = Instance.new("Folder")
-BillboardsFolder.Name = RandomName()
+BillboardsFolder.Name = Library:GenerateRandomString()
 BillboardsFolder.Parent = ScreenGui
 
 local TracersFrame = Instance.new("Frame")
 TracersFrame.Size = UDim2.new(1, 0, 1, 0)
 TracersFrame.BackgroundTransparency = 1
 TracersFrame.Visible = false
-TracersFrame.Name = RandomName()
+TracersFrame.Name = Library:GenerateRandomString()
 TracersFrame.Parent = ScreenGui
 
 local ArrowsFrame = Instance.new("Frame")
 ArrowsFrame.Size = UDim2.new(1, 0, 1, 0)
 ArrowsFrame.BackgroundTransparency = 1
 ArrowsFrame.Visible = false
-ArrowsFrame.Name = RandomName()
+ArrowsFrame.Name = Library:GenerateRandomString()
 ArrowsFrame.Parent = ScreenGui
 
 local ArrowTemplate = Instance.new("ImageLabel")
@@ -108,7 +108,7 @@ ArrowTemplate.BackgroundTransparency = 1
 ArrowTemplate.ImageTransparency = 1
 local ArrowConstraint = Instance.new("UIAspectRatioConstraint")
 ArrowConstraint.AspectRatio = 1
-ArrowConstraint.Name = RandomName()
+ArrowConstraint.Name = Library:GenerateRandomString()
 ArrowConstraint.Parent = ArrowTemplate
 
 local TweenInfoQuad = TweenInfo.new(0, Enum.EasingStyle.Quad)
@@ -186,7 +186,7 @@ function Library:AddESP(Parameters)
 	local Highlight = Instance.new("Highlight")
 	Highlight.FillTransparency = 1
 	Highlight.OutlineTransparency = 1
-	Highlight.Name = RandomName()
+	Highlight.Name = Library:GenerateRandomString()
 	Highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 	Highlight.Adornee = Object
 	Highlight.Parent = HighlightsFolder
@@ -194,14 +194,14 @@ function Library:AddESP(Parameters)
 
 	local TextFrame = Instance.new("Frame")
 	TextFrame.Visible = false
-	TextFrame.Name = RandomName()
+	TextFrame.Name = Library:GenerateRandomString()
 	TextFrame.Size = UDim2.fromScale(1, 1)
 	TextFrame.BackgroundTransparency = 1
 	TextFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 	TextFrame.Parent = BillboardsFolder
 
 	local TextLabel = Instance.new("TextLabel")
-	TextLabel.Name = RandomName()
+	TextLabel.Name = Library:GenerateRandomString()
 	TextLabel.BackgroundTransparency = 1
 	TextLabel.Text = Parameters.Text
 	TextLabel.TextTransparency = 1
@@ -234,14 +234,14 @@ function Library:AddESP(Parameters)
 	LineFrame.Size = UDim2.new(0, 0, 0, 0)
 	LineFrame.BackgroundTransparency = 1
 	LineFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-	LineFrame.Name = RandomName()
+	LineFrame.Name = Library:GenerateRandomString()
 	LineFrame.Parent = TracersFrame
 
 	local Stroke = Instance.new("UIStroke")
 	Stroke.Thickness = Library.TracerSize
 	Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 	Stroke.Transparency = 1
-	Stroke.Name = RandomName()
+	Stroke.Name = Library:GenerateRandomString()
 	Stroke.Parent = LineFrame
 
 	PlayTween(LineFrame, { BackgroundTransparency = 0 })
@@ -287,7 +287,7 @@ function Library:AddESP(Parameters)
 				CachedHighlight = Instance.new("Highlight")
 				CachedHighlight.FillTransparency = 1
 				CachedHighlight.OutlineTransparency = 1
-				CachedHighlight.Name = RandomName()
+				CachedHighlight.Name = Library:GenerateRandomString()
 				CachedHighlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				CachedHighlight.Adornee = Object
 				CachedHighlight.Parent = HighlightsFolder
@@ -359,7 +359,7 @@ function Library:AddESP(Parameters)
 				local Arrow = Library.ArrowsTable[Object]
 				if Arrow == nil and Library.ElementsEnabled[Object] == true then
 					Arrow = ArrowTemplate:Clone()
-					Arrow.Name = RandomName()
+					Arrow.Name = Library:GenerateRandomString()
 					Arrow:WaitForChild(ArrowConstraint.Name, 5)
 					Arrow.Parent = ArrowsFrame
 					Library.ArrowsTable[Object] = Arrow
