@@ -58,7 +58,7 @@ local function GetHiddenUI()
 	return Folder
 end
 
-local function Library:GenerateRandomString()
+function Library:GenerateRandomString()
 	local Chars = {}
 	local Pool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	local PoolLen = #Pool
