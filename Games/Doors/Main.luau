@@ -5079,6 +5079,7 @@ Functions.HandleObject = function(Object)
                 end
             elseif Floor == "OldHotel" or Floor == "Fools" then
                 CurrentRooms.ChildAdded:Wait()
+				task.wait(2.5)
                 for Index2, Object2 in (Object:GetDescendants()) do
                     if Object2:IsA("BasePart") then
                         task.spawn(function()
