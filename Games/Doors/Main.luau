@@ -1,6 +1,3 @@
-Abysall.Interface = loadstring(game:HttpGet(BaseUrl .. "Components/Interface.luau"))()
-Abysall.Analytics = loadstring(game:HttpGet(BaseUrl .. "Components/Analytics.luau"))()
-
 local LoadStart = tick()
 Abysall.SavePath = "Doors/Game"
 
