@@ -95,9 +95,12 @@ function Nofitication:Notify(nofdebug, middledebug, all)
         
             ambientShadow:TweenSize(UDim2.new(0, 240, 0, 90), "Out", "Linear", 0.2)
             Window.Size = UDim2.new(0, 230, 0, 80)
-            Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", middledebug.Time)
-    
-            wait(middledebug.Time)
+            if typeof(middledebug.Time) == "Instance" then
+                middledebug.Time.Destroying:Wait()
+            else
+                Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", middledebug.Time)
+                wait(middledebug.Time)
+            end
         
             ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
             
@@ -123,10 +126,13 @@ function Nofitication:Notify(nofdebug, middledebug, all)
 
         local function ORBHB_fake_script()
             local script = Instance.new('LocalScript', ambientShadow)
-        
-            Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", middledebug.Time)
 
-            wait(middledebug.Time)
+            if typeof(middledebug.Time) == "Instance" then
+                middledebug.Time.Destroying:Wait()
+            else
+                Outline_A:TweenSize(UDim2.new(0, 0, 0, 2), "Out", "Linear", middledebug.Time)
+                wait(middledebug.Time)
+            end
         
             ambientShadow:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Linear", 0.2)
             
