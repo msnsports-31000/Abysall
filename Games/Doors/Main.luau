@@ -3392,7 +3392,7 @@ Functions.HandleObject = function(Object)
 		table.insert(Connections, PLConn)
 		table.insert(Objects.PathLights, Object)
 		Object.Destroying:Once(function() PLConn:Disconnect() end)
-	elseif Object.Name == "SeekMovingNewClone" then
+	elseif Name == "SeekMovingNewClone" then
 		local Connection = Object.Destroying:Connect(function()
 			for _, Folder in pairs(Objects.PathLights) do
 				Folder:ClearAllChildren()
