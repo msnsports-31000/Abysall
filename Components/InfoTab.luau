@@ -56,9 +56,10 @@ return function(Window)
         Changelog:AddLabel(Change, true)
     end
 
-    local Name = Abysall.Environment.identifyexecutor()
+    local Name, Version = Abysall.Environment.identifyexecutor()
     local Executor = InfoTab:AddRightGroupbox("Executor Info")
     Executor:AddLabel("Name: " .. Name, true)
+	Executor:AddLabel("Version: " .. (Version and Version or "N/A"), true)
     Executor:AddDivider()
     Executor:AddLabel("Test Result: ", true)
 
