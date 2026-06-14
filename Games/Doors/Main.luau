@@ -3396,8 +3396,8 @@ Functions.HandleObject = function(Object)
 		local Connection = Object.Destroying:Connect(function()
 			for _, Folder in pairs(Objects.PathLights) do
 				Folder:ClearAllChildren()
-				SeekNodesFolder:ClearAllChildren()
 			end
+			SeekNodesFolder:ClearAllChildren()
 		end)
 		table.insert(Connections, Connection)
 	elseif Name == "Bridge" then
