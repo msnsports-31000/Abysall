@@ -3872,7 +3872,7 @@ end
 Connections.PromptAnimationFixer1 = Services.ProximityPromptService.PromptButtonHoldBegan:Connect(function(Object)
 	if not Object:GetAttribute("FakePrompt") then return end
 	local ToolNames = { "Lockpick","Shears","SkeletonKey","Key","GeneratorFuse","KeyElectrical","KeyBackdoor","KeyIron", "Multitool" }
-	local AnimateToolNames = { "Lockpick","Shears","SkeletonKey","Multitool" }
+	local AnimateToolNames = { "Lockpick","Shears","SkeletonKey","Key","KeyElectrical","KeyBackdoor","KeyIron", "Multitool" }
 	local Tool
 	for _, N in ToolNames do Tool = Character:FindFirstChild(N) if Tool then break end end
 
@@ -4097,7 +4097,7 @@ Functions.TriggerPrompt = function(Prompt)
 		if Humanoid.Health >= Humanoid.MaxHealth then return end
 		local BPack = Functions.HasItem("BandagePack")
 		if BPack and BPack:GetAttribute("Durability") >= BPack:GetAttribute("DurabilityMax") then return end
-	end
+	endw
 
 	if Prompt.Parent.Name == "Battery" then
 		local Tool = Character:FindFirstChildOfClass("Tool")
@@ -4156,7 +4156,7 @@ Connections.InfiniteItemsHandler = Services.ProximityPromptService.PromptTrigger
 	if not Object:GetAttribute("FakePrompt") then return end
 
 	local ToolNames = { "Lockpick","Shears","SkeletonKey","Key","GeneratorFuse","KeyElectrical","KeyBackdoor","KeyIron", "Multitool" }
-	local AnimateToolNames = { "Lockpick","Shears","SkeletonKey","Multitool" }
+	local AnimateToolNames = { "Lockpick","Shears","SkeletonKey","Key","KeyElectrical","KeyBackdoor","KeyIron", "Multitool" }
 	local Tool
 	for _, N in ToolNames do Tool = Character:FindFirstChild(N) if Tool then break end end
 
