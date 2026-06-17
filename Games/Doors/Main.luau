@@ -3577,7 +3577,7 @@ Functions.HandleObject = function(Object)
 			end
 		end
 
-		if Nearest.Room then
+		if Nearest.Room and not Object:GetAttribute("ParentRoom") then
 			Object:SetAttribute("ParentRoom", tonumber(Nearest.Room))
 		end
 
