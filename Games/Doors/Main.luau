@@ -3669,7 +3669,6 @@ Functions.HandleObject = function(Object)
 		table.insert(Objects.Entities, Object)
 	elseif Name == "JeffTheKiller" then
 		if Toggles.BypassJeff.Value then
-			task.wait(1)
 			for _, Part in Object:GetDescendants() do
 				if Part:IsA("BasePart") then Part.CanCollide = false Part.CanTouch = false end
 			end
@@ -3694,8 +3693,10 @@ Functions.HandleObject = function(Object)
 	elseif Name == "Figure" or Name == "FigureRig" or Name == "FigureRagdoll" then
 		for _, Part in pairs(Object:GetDescendants()) do
 			if Part:IsA("BasePart") then
-				Part.CanCollide = false
 				Part.CanTouch = false
+				if Toggles.DeleteFigure.Value then
+					Part.CanCollide = false
+				end
 			end
 		end
 
