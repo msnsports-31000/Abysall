@@ -247,8 +247,10 @@ local Drops           = Services.Workspace:FindFirstChild("Drops")
 local GameData        = Services.ReplicatedStorage:WaitForChild("GameData")
 local Floor           = GameData:WaitForChild("Floor").Value
 local LatestRoom      = GameData:WaitForChild("LatestRoom")
-local FinishedLoadingRoom = GameData:WaitForChild("FinishedLoadingRoom")
-FinishedLoadingRoom:Destroy()
+local FinishedLoadingRoom = GameData:FindFirstChild("FinishedLoadingRoom")
+if FinishedLoadingRoom then
+	FinishedLoadingRoom:Destroy()
+end
 
 local function GetHiddenContainer()
 	if Functions.CheckCompatability({"gethui"}) then
