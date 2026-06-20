@@ -1279,18 +1279,18 @@ end)
 Toggles.BypassEyes:OnChanged(function(Value)
 	if Value and Globals.IsEyes then
 		if Floor == "Fools" or Floor == "OldHotel" then
-			RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 75 or -75), 0, false)
+			RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 65 or -65), 0, false)
 		else
-			RemotesFolder.MotorReplication:FireServer(-750)
+			RemotesFolder.MotorReplication:FireServer(-650)
 		end
 	end
 end)
 Toggles.BypassLookman:OnChanged(function(Value)
 	if Value and Globals.IsLookman then
 		if Floor == "Fools" or Floor == "OldHotel" then
-			RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 75 or -75), 0, false)
+			RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 65 or -65), 0, false)
 		else
-			RemotesFolder.MotorReplication:FireServer(-750)
+			RemotesFolder.MotorReplication:FireServer(-650)
 		end
 	end
 end)
@@ -2493,9 +2493,9 @@ if Functions.CheckCompatability({"hookmetamethod", "newcclosure", "getnamecallme
 				local DoBypass = (Toggles.BypassEyes.Value and Globals.IsEyes) or (Toggles.BypassLookman.Value and Globals.IsLookman)
 				if DoBypass then
 					if Floor == "Fools" or Floor == "OldHotel" then
-						Args[1] = 0 Args[2] = (Globals.SpoofOffset == 200 and 75 or -75) Args[3] = 0 Args[4] = false
+						Args[1] = 0 Args[2] = (Globals.SpoofOffset == 200 and 65 or -65) Args[3] = 0 Args[4] = false
 					else
-						Args[1] = -750
+						Args[1] = -650
 					end
 				end
 			end
@@ -3026,9 +3026,9 @@ Functions.HandleCharacter = function(NewCharacter)
 			local DoEyesBypass = (Toggles.BypassEyes.Value and Globals.IsEyes) or (Toggles.BypassLookman.Value and Globals.IsLookman)
 			if DoEyesBypass then
 				if Floor == "Fools" or Floor == "OldHotel" then
-					RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 75 or -75), 0, false)
+					RemotesFolder.MotorReplication:FireServer(0, (Globals.SpoofOffset == 200 and 65 or -65), 0, false)
 				else
-					RemotesFolder.MotorReplication:FireServer(-750)
+					RemotesFolder.MotorReplication:FireServer(-650)
 				end
 			end
 		end
@@ -3648,14 +3648,6 @@ Functions.HandleObject = function(Object)
 		end
 		table.insert(Objects.Entities, Object)
 	elseif Name == "Snare" then
-		if Object:FindFirstChild("Snare") then
-			Object.Snare.Roots.Transparency = 1
-			Object.Snare.SnareBase.Transparency = 1
-		end
-		if Object:FindFirstChild("Void") then
-			Object.Void.Transparency = 0
-			Object.Void.Color = Color3.fromRGB(76, 67, 55)
-		end
 		if Toggles.EntityESPToggle.Value then Functions.AddESP({ Object = Object, Text = "Snare", Color = Options.EntityESPColor.Value }, true) end
 		for _, Part in Object:GetDescendants() do
 			if Part:IsA("BasePart") then Part.CanTouch = not Toggles.BypassSnare.Value end
@@ -3665,6 +3657,15 @@ Functions.HandleObject = function(Object)
 		end)
 		table.insert(Connections, Connection)
 		table.insert(Objects.Entities, Object)
+
+		if Object:FindFirstChild("Snare") then
+			Object:WaitForChild("Snare"):WaitForChild("Root").Transparency = 1
+			Object:WaitForChild("Snare"):WaitForChild("SnareBase").Transparency = 1
+		end
+		if Object:FindFirstChild("Void") then
+			Object.Void.Transparency = 0
+			Object.Void.Color = Color3.fromRGB(76, 67, 55)
+		end
 	elseif Name == "Seek_Arm" or Name == "ChandelierObstruction" then
 		for _, Part in Object:GetDescendants() do
 			if Part:IsA("BasePart") then
