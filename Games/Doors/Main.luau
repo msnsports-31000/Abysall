@@ -3744,7 +3744,6 @@ Functions.HandleObject = function(Object)
 				end
 			elseif Floor == "OldHotel" or Floor == "Fools" then
 				CurrentRooms.ChildAdded:Wait()
-				task.wait(2.5)
 				for _, Part in Object:GetDescendants() do
 					if Part:IsA("BasePart") then
 						Part.CanCollide = false
