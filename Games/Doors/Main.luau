@@ -2013,11 +2013,11 @@ Groupboxes.Floors_Automation:AddToggle("AutoSteerMinecart", {
 	Disabled = not Functions.CheckCompatability({"require"}), DisabledTooltip = Globals.IncompatibleMessage
 })
 Groupboxes.Floors_Automation:AddSlider("AutoSteerMinecartTurnDistance", {
-	Text = "Turn Distance", Min = 20, Max = 50, Default = 35, Rounding = 0,
+	Text = "Turn Distance", Min = 20, Max = 40, Default = 30, Rounding = 0,
 	Disabled = not Functions.CheckCompatability({"require"}), DisabledTooltip = Globals.IncompatibleMessage
 })
 Groupboxes.Floors_Automation:AddSlider("AutoSteerMinecartDuckDistance", {
-	Text = "Crouch Distance", Min = 20, Max = 50, Default = 35, Rounding = 0,
+	Text = "Crouch Distance", Min = 20, Max = 40, Default = 30, Rounding = 0,
 	Disabled = not Functions.CheckCompatability({"require"}), DisabledTooltip = Globals.IncompatibleMessage
 })
 Groupboxes.Floors_Automation:AddDivider()
@@ -2303,11 +2303,6 @@ Groupboxes.Floors_Completion:AddButton({
         end
 
         local function HandlePump(Pump)
-            local Completed = false
-            Pump:WaitForChild("Wheel").Sound.Played:Once(function()
-			    Completed = true
-				Pump:SetAttribute("Abysall_Completed", true)
-		    end)
 
             while task.wait(0.1) do
 				if IsCutscene then
@@ -2321,7 +2316,7 @@ Groupboxes.Floors_Completion:AddButton({
                     Functions.ForceFirePrompt(Prompt)
                 end
 
-                if Completed then
+                if Object:GetAttribute("Abysall_Completed") then
                     break
                 end
             end
@@ -2608,7 +2603,7 @@ Functions.HandleCharacter = function(NewCharacter)
 		Controls.GetMoveVector = function(...)
 			if Toggles.AutoSteerMinecart.Value and Floor == "Mines" then
 				local Node = Functions.GetNearestTurnNode()
-				if Node then
+				if Node and Functions.GetMinecart() then
 					local Turn = Node:GetAttribute("Turn")
 					return Turn == "Left" and Vector3.new(-1, 0, 0) or Turn == "Right" and Vector3.new(1, 0, 0) or Vector3.zero
 				end
@@ -3258,6 +3253,8 @@ Functions.HandleObject = function(Object)
 	elseif Name == "WaterPump" then
 		if Toggles.ObjectiveESPToggle.Value then Functions.AddESP({ Object = Object:WaitForChild("Wheel"), Text = "Water Pump", Color = Options.ObjectiveESPColor.Value }, true) end
 		Object:WaitForChild("Wheel").Sound.Played:Once(function()
+			Object:SetAttribute("Abysall_Completed", true)
+
 			Functions.RemoveESP(Object.Wheel)
 			Functions.BlacklistESP(Object.Wheel)
 		end)
@@ -3297,7 +3294,7 @@ Functions.HandleObject = function(Object)
 		if Toggles.ObjectiveESPToggle.Value then Functions.AddESP({ Object = Object, Text = "Generator Fuse", Color = Options.ObjectiveESPColor.Value }, true) end
 		Object:WaitForChild("Hitbox").FuseModel:GetPropertyChangedSignal("LocalTransparencyModifier"):Once(function()
 			Functions.RemoveESP(Object)
-			Functions.BlacklistESP(Object)
+			Functions.BlacklistESP(Object)""
 		end)
 		table.insert(Objects.Objectives, Object)
 	elseif Name == "MinesGateButton" then
@@ -3572,7 +3569,7 @@ Functions.HandleObject = function(Object)
 		for _, Player in pairs(Services.Players:GetPlayers()) do
 			if Player.Character then
 				local Distance = (Player.Character:GetPivot().Position - Object:GetPivot().Position).Magnitude
-				if Distance < Nearest.Distance then
+				if Distance < Nearest.Distance and Nearest.Distance < 10 then
 					Nearest.Room = tonumber(Player:GetAttribute("CurrentRoom"))
 					Nearest.Distance = Distance
 				end
@@ -3580,7 +3577,7 @@ Functions.HandleObject = function(Object)
 		end
 
 		if Nearest.Room and not Object:GetAttribute("ParentRoom") then
-			Object:SetAttribute("ParentRoom", (Nearest.Distance > 10 and Floor == "Party" and tonumber(Nearest.Room) + 1) or tonumber(Nearest.Room))
+			Object:SetAttribute("ParentRoom", (Floor == "Party" and tonumber(Nearest.Room) + 1 or tonumber(Nearest.Room)))
 		end
 
 		if Toggles.ItemESPToggle.Value then Functions.AddESP({ Object = Object, Text = ItemNames[Name], Color = Options.ItemESPColor.Value }, Object:GetAttribute("ParentRoom") ~= nil) end
