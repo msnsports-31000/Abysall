@@ -1,22 +1,18 @@
-local function CloneReference(Object)
-	if Abysall and Abysall.Environment.cloneref then
-		return Abysall.Environment.cloneref(Object)
-	else
-		return Object
-	end
-end
-
-local Services = setmetatable({}, {
-	__index = function(self, Name)
-		return CloneReference(game:GetService(Name))
-	end
-})
-
-if not Abysall or Abysall and not Abysall.Legit then
-	return Services.Players.LocalPlayer:Kick("like bro can you not paste my shit thx\ndsc.gg/abysallhub")
-end
-
 return function(Window)
+	local function CloneReference(Object)
+		if Abysall and Abysall.Environment.cloneref then
+			return Abysall.Environment.cloneref(Object)
+		else
+			return Object
+		end
+	end
+	
+	local Services = setmetatable({}, {
+		__index = function(self, Name)
+			return CloneReference(game:GetService(Name))
+		end
+	})
+
 	local Library = Abysall.Interface.Library
 	local SaveManager = Abysall.Interface.SaveManager
 	local ThemeManager = Abysall.Interface.ThemeManager
