@@ -3295,7 +3295,7 @@ Functions.HandleObject = function(Object)
 		if Toggles.ObjectiveESPToggle.Value then Functions.AddESP({ Object = Object, Text = "Generator Fuse", Color = Options.ObjectiveESPColor.Value }, true) end
 		Object:WaitForChild("Hitbox").FuseModel:GetPropertyChangedSignal("LocalTransparencyModifier"):Once(function()
 			Functions.RemoveESP(Object)
-			Functions.BlacklistESP(Object)""
+			Functions.BlacklistESP(Object)
 		end)
 		table.insert(Objects.Objectives, Object)
 	elseif Name == "MinesGateButton" then
