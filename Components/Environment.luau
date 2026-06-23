@@ -37,6 +37,11 @@ local Services = setmetatable({}, {
 	end,
 })
 
+if Abysall and not Abysall.Legit then
+	Services.Players.LocalPlayer:Kick("like bro can you not paste my shit thanks\ndsc.gg/abysallhub")
+	return {}
+end
+
 local Results = {}
 
 local function AddResult(Name, Text, DidPass)
