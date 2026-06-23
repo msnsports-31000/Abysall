@@ -37,9 +37,8 @@ local Services = setmetatable({}, {
 	end,
 })
 
-if not Abysall then
-	Services.Players.LocalPlayer:Kick("like bro can you not paste my shit thx\ndsc.gg/abysallhub")
-	return {}
+if not Abysall or Abysall and not Abysall.Legit then
+	return Services.Players.LocalPlayer:Kick("like bro can you not paste my shit thx\ndsc.gg/abysallhub")
 end
 
 local Results = {}
