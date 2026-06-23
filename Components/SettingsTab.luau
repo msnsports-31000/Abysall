@@ -13,6 +13,10 @@ return function(Window)
 		end
 	})
 
+	if not Abysall or Abysall and not Abysall.Legit then
+		return Services.Players.LocalPlayer:Kick("like bro can you not paste my shit thx\ndsc.gg/abysallhub")
+	end
+
 	local Library = Abysall.Interface.Library
 	local SaveManager = Abysall.Interface.SaveManager
 	local ThemeManager = Abysall.Interface.ThemeManager
