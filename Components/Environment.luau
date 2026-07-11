@@ -8,7 +8,6 @@ local BrokenFeatures = {
 	["Volcano"] = {"run_on_actor", "oth"},
 	["Delta"] = {"hookmetamethod"},
 	["Wave"] = {"hookmetamethod"},
-	["Potassium"] = {"hookmetamethod"},
 	["Opiumware"] = {"gethiddenproperty"},
 	["Solara"] = {"require"},
 	["Xeno"] = {"require"},
