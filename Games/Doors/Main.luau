@@ -2503,7 +2503,10 @@ Groupboxes.Floors_Farming:AddButton({
 	Tooltip = "Automatically farms deaths, joining new runs.",
 	Func = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
-	end
+	end,
+
+	Disabled = not Functions.CheckCompatability({"fireproximityprompt", "firesignal"}),
+	DisabledTooltip = Globals.ImcompatibleMessage
 })
 Groupboxes.Floors_Farming:AddButton({
 	Text = "Copy Loadstring",
@@ -2514,7 +2517,10 @@ Groupboxes.Floors_Farming:AddButton({
 			loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
 		]==])
 		Library:Notify("Loadstring has been copied to your clipboard.")
-	end
+	end,
+
+	Disabled = not Functions.CheckCompatability({"fireproximityprompt", "firesignal"}),
+	DisabledTooltip = Globals.ImcompatibleMessage
 })
 
 Toggles.KnobFarm:OnChanged(function(Value)
