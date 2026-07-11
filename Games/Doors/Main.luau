@@ -2496,6 +2496,27 @@ Groupboxes.Floors_Farming:AddButton({
     end
 })
 
+Groupboxes.Floors_Farming:AddDivider()
+Groupboxes.Floors_Farming:AddButton({
+	Text = "Death Farm",
+	DoubleClick = true,
+	Tooltip = "Automatically farms deaths, joining new runs.",
+	Func = function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
+	end
+})
+Groupboxes.Floors_Farming:AddButton({
+	Text = "Copy Loadstring",
+	DoubleClick = false,
+	Tooltip = "Copies the death farm loadstring to your clipboard.",
+	Func = function()
+		toclipboard([==[
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
+		]==])
+		Library:Notify("Loadstring has been copied to your clipboard.")
+	end
+})
+
 Toggles.KnobFarm:OnChanged(function(Value)
     if Value then
         Functions.Notify({Title = "Please collect some gold to earn knobs.", Body = "Click 'Start Knob Farm' when you're ready."})
