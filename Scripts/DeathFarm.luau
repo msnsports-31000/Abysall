@@ -17,8 +17,9 @@ local TeleportCode = [==[
 ]==]
 
 local LocalPlayer = Services.Players.LocalPlayer
-local RemotesFolder = Services.ReplicatedStorage.RemotesFolder
+local RemotesFolder = Services.ReplicatedStorage:FindFirstChild("RemotesFolder")
 local CurrentRooms = Services.Workspace:FindFirstChild("CurrentRooms")
+local GameData = Services.ReplicatedStorage:FindFirstChild("GameData")
 
 local function SendCaption(Text)
 	if firesignal then
@@ -26,6 +27,75 @@ local function SendCaption(Text)
 	else
 		RemotesFolder.CaptionClient:Fire("[Abysall Hub] " .. Text)
 	end
+end
+
+if game.PlaceId == 6516141723 then
+	SendCaption("Joining a run...")
+	QueueTeleport(TeleportCode)
+	RemotesFolder.CreateElevator:FireServer({
+		Mods = {},
+		Settings = {},
+		Destination = "Hotel",
+		FriendsOnly = false,
+		MaxPlayers = "1"
+	})
+	return
+end
+
+if GameData and GameData.Floor.Value ~= "Hotel" then
+	QueueTeleport([==[
+		local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+		local function SendCaption(Text)
+			if firesignal then
+				firesignal(RemotesFolder.Caption.OnClientEvent, "[Abysall Hub] " .. Text)
+			else
+				RemotesFolder.CaptionClient:Fire("[Abysall Hub] " .. Text)
+			end
+		end
+
+		local QueueTeleport = queue_on_teleport or queueonteleport
+		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
+
+		SendCaption("Joining a run...")
+		RemotesFolder.CreateElevator:FireServer({
+			Mods = {},
+			Settings = {},
+			Destination = "Hotel",
+			FriendsOnly = false,
+			MaxPlayers = "1"
+		})
+		
+	]==])
+	RemotesFolder.Lobby:FireServer()
+	return
+end
+
+if game.PlaceId ~= 6839171747 then
+	QueueTeleport([==[
+		local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+		local function SendCaption(Text)
+			if firesignal then
+				firesignal(RemotesFolder.Caption.OnClientEvent, "[Abysall Hub] " .. Text)
+			else
+				RemotesFolder.CaptionClient:Fire("[Abysall Hub] " .. Text)
+			end
+		end
+
+		local QueueTeleport = queue_on_teleport or queueonteleport
+		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
+
+		SendCaption("Joining a run...")
+		RemotesFolder.CreateElevator:FireServer({
+			Mods = {},
+			Settings = {},
+			Destination = "Hotel",
+			FriendsOnly = false,
+			MaxPlayers = "1"
+		})
+		
+	]==])
+	Services.TeleportService:Teleport(6516141723)
+	return
 end
 
 if #CurrentRooms:GetChildren() > 1 or LocalPlayer.Character then
