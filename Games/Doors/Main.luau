@@ -4369,6 +4369,7 @@ Connections.EntityHandler = Services.Workspace.ChildAdded:Connect(function(Entit
 	if not Entity.PrimaryPart or LocalPlayer:DistanceFromCharacter(Entity.PrimaryPart.Position) >= 10000 then return end
 
 	local Alias = EntityData.Alias
+    local RealAlias = Alias
 	if Options.EntityList.Value[Alias] and Toggles.NotifyEntities.Value then
 		local NotifyTitle = EntityData.NotifyMessage.Title
 		local NotifyBody  = EntityData.NotifyMessage.Body
@@ -4388,7 +4389,7 @@ Connections.EntityHandler = Services.Workspace.ChildAdded:Connect(function(Entit
 	end
 
 	if Entity.Name ~= "GloombatSwarm" then
-		if Toggles.EntityESPToggle.Value and Options.EntityESPOptions.Value[Alias] then
+		if Toggles.EntityESPToggle.Value and Options.EntityESPOptions.Value[RealAlias] then
 			if Entity.Name == "MonumentEntity" then
 				Functions.AddESP({ Object = Entity.Top, Text = Alias, Color = Options.EntityESPColor.Value })
 			else
