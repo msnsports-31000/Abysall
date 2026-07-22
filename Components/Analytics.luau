@@ -34,7 +34,7 @@ if Abysall.Environment.identifyexecutor and Abysall.Environment.request then
     task.spawn(function()
         pcall(function()
             Abysall.Environment.request({
-                Url = "https://abysall.wispbyte.org/api/send",
+                Url = "no",
                 Method = "POST",
                 Headers = {
                     ["content-type"] = "application/json"
