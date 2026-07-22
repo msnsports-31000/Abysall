@@ -2,8 +2,8 @@ while not game:IsLoaded() do
 	task.wait(1)
 end
 
-print("Abysall Hub death farm for DOORS, created by FireBacon (bocaj111004)")
-print("dsc.gg/abysallhub")
+print("Hello World!")
+print("Whats up, abysall has executed successfully.")
 
 local Services = setmetatable({}, {
 	__index = function(self, Key)
@@ -13,7 +13,7 @@ local Services = setmetatable({}, {
 
 local QueueTeleport = queue_on_teleport or queueonteleport
 local TeleportCode = [==[
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/msnsports-31000/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()
 ]==]
 
 local LocalPlayer = Services.Players.LocalPlayer
@@ -54,7 +54,7 @@ if GameData and GameData.Floor.Value ~= "Hotel" then
 		end
 
 		local QueueTeleport = queue_on_teleport or queueonteleport
-		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
+		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/msnsports-31000/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
 
 		SendCaption("Joining a run...")
 		RemotesFolder.CreateElevator:FireServer({
@@ -82,7 +82,7 @@ if game.PlaceId ~= 6839171747 then
 		end
 
 		local QueueTeleport = queue_on_teleport or queueonteleport
-		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/bocaj111004/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
+		QueueTeleport([=[loadstring(game:HttpGet("https://raw.githubusercontent.com/msnsports-31000/Abysall/refs/heads/main/Scripts/DeathFarm.luau"))()]=])
 
 		SendCaption("Joining a run...")
 		RemotesFolder.CreateElevator:FireServer({
