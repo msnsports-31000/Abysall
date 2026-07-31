@@ -11,10 +11,10 @@ local Services = setmetatable({}, {
 local Bindable = Instance.new("BindableFunction")
 Bindable.OnInvoke = function(Response)
     local Success, Result = pcall(function()
-        toclipboard("https://dsc.gg/abysallhub")
+        toclipboard("thanks for using the script!")
     end)
     if not Success then
-        Services.LocalPlayer:Kick("Failed to copy invite.\nhttps://dsc.gg/abysallhub")
+        Services.LocalPlayer:Kick("kick")
     end
 end
 
@@ -22,6 +22,6 @@ Services.StarterGui:SetCore("SendNotification", {
     Title = "Abysall Hub",
     Text = "Only DOORS is supported right now, sorry :)",
     Duration = 10,
-    Button1 = "Copy Discord Invite",
+    Button1 = "thanks for using the script!",
     Callback = Bindable,
 })
