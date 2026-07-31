@@ -1005,7 +1005,7 @@ end
 
 local Window = Library:CreateWindow({
 	Title = "Abysall Hub",
-	Footer = "dsc.gg/abysallhub",
+	Footer = "thanks for using the script!",
 	NotifySide = "Right",
 	ShowCustomCursor = false,
 	AutoShow = true,
